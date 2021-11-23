@@ -14,7 +14,7 @@ searchForm.addEventListener('input', debounce(countrySearchInputHandler, DEBOUNC
 function countrySearchInputHandler(e) {
   e.preventDefault();
   clearCountryList();
-  const searchQuery = e.target.value;
+  const searchQuery = e.target.value.trim();
 
   fetchCountries(searchQuery)
     .then(data => {
