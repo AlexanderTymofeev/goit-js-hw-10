@@ -15,24 +15,26 @@ function countrySearchInputHandler(e) {
   e.preventDefault();
   clearCountryList();
   const searchQuery = e.target.value.trim();
-  if (searchQuery)
-    fetchCountries(searchQuery)
-      .then(data => {
-        if (data.length > 10) {
-          Notify.failure('Too many matches found. Please enter a more specific name.');
-        } else if (data.status === 404) {
-          Notify.failure('Oops, there is no country with that name');
-        } else if (data.length === 1) {
-          const markupOneCountry = createArticlesOneCountry(data);
-          countryList.innerHTML = markupOneCountry;
-        } else if (data.length <= 10) {
-          const markupManyCountry = createCountriesList(data);
-          countryInfo.innerHTML = markupManyCountry;
-        }
-      })
-      .catch(Error => {
-        Notify.failure('You must enter query parameters!');
-      });
+  if (searchQuery === '') {
+    return;
+  }
+  fetchCountries(searchQuery)
+    .then(data => {
+      if (data.length > 10) {
+        Notify.failure('Too many matches found. Please enter a more specific name.');
+      } else if (data.status === 404) {
+        Notify.failure('Oops, there is no country with that name');
+      } else if (data.length === 1) {
+        const markupOneCountry = createArticlesOneCountry(data);
+        countryList.innerHTML = markupOneCountry;
+      } else if (data.length <= 10) {
+        const markupManyCountry = createCountriesList(data);
+        countryInfo.innerHTML = markupManyCountry;
+      }
+    })
+    .catch(Error => {
+      Notify.failure('You must enter query parameters!');
+    });
 }
 
 const createCountriesList = data => {
